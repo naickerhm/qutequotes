@@ -3,19 +3,25 @@ package WebAPI;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
 import io.javalin.http.NotFoundResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import DataAccess.*;
 import QuteQuoteDomain.Quote;
 
 public class QuoteApiHandler {
-    private static final QuoteDB database = new TestDatabase();
 
     /**
      * Get all quotes
      *
      * @param context The Javalin Context for the HTTP GET Request
      */
-    public static void getAll(Context context) {
-        context.json(database.all());
+    public static void getAll(Context context, DatabaseConnection dbcon) {
+        List<Quote> list = new ArrayList<Quote>();
+        list = dbcon.all();
+        
+        context.json(list);
     }
 
     /**
@@ -23,9 +29,9 @@ public class QuoteApiHandler {
      *
      * @param context The Javalin Context for the HTTP GET Request
      */
-    public static void getOne(Context context) {
+    public static void getOne(Context context, DatabaseConnection dbcon) {
         Integer id = context.pathParamAsClass("id", Integer.class).get();
-        Quote quote = database.get(id);
+        Quote quote = dbcon.get(id);
         if (quote == null) {
             throw new NotFoundResponse("Quote not found: " + id);
         }
@@ -37,11 +43,10 @@ public class QuoteApiHandler {
      *
      * @param context The Javalin Context for the HTTP POST Request
      */
-    public static void create(Context context) {
+    public static void create(Context context, DatabaseConnection dbcon) {
         Quote quote = context.bodyAsClass(Quote.class);
-        Quote newQuote = database.add(quote);
-        context.header("Location", "/quote/" + newQuote.getId());
+        boolean quoteAdded = dbcon.add(quote);
         context.status(HttpCode.CREATED);
-        context.json(newQuote);
+        context.json(quoteAdded);
     }
 }
