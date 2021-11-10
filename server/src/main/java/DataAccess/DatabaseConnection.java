@@ -3,29 +3,42 @@ package DataAccess;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class DatabaseConnection {
+import QuteQuoteDomain.Quote;
 
-    // public static final String DISK_DB_URL = "jdbc:sqlite:QuteQuotes.sqlite";
-    public static final String DISK_DB_URL = "jdbc:sqlite::memory";
+public class DatabaseConnection implements QuoteDB{
 
-    public  Connection connectionObj = null;
+    public static final String DISK_DB_URL = "jdbc:sqlite:qutequotes.db";
+    //public static final String DISK_DB_URL = "jdbc:sqlite::memory";
 
+    public Connection connectionObj = null;
 
     public DatabaseConnection() {
-        try( final Connection connection = DriverManager.getConnection(DISK_DB_URL) ){
+
+    }
+
+    public boolean Connect(){
+        try{
+            connectionObj = DriverManager.getConnection(DISK_DB_URL);
             System.out.println( "Connected to database " );
-            connectionObj = connection;
+            return true;
+        }catch( SQLException e ){
+            System.err.println( e.getMessage() );
+        }
+
+        return false;
+    }
+
+    public void Close(){
+        try{
+            connectionObj.close();
         }catch( SQLException e ){
             System.err.println( e.getMessage() );
         }
     }
 
-//    public Map<Integer, Quote> retrieveQuotes() {
-//        return null;
-//
-//    }
 
     public void createTable() throws SQLException {
         String sqlQuery =  "CREATE TABLE IF NOT EXISTS QuteQuotesList (quote TEXT, author TEXT)";
@@ -37,23 +50,43 @@ public class DatabaseConnection {
     }
 
 
-
-    private void addQuote() throws SQLException { //incomplete
-        String sqlQuery =  "INSERT INTO QuteQuotesList (quote, author) VALUES ()";
-        try( final Statement stmt = connectionObj.createStatement() ){
-            stmt.execute(sqlQuery);
-        }catch( SQLException e ){
-            System.err.println( e.getMessage() );
-        }
+    @Override
+    public Quote get(Integer id) {
+        // unimplemented
+        return null; //quotes.get(id);
     }
 
-    private void readQuotes () throws SQLException { //TODO
-        String sqlQuery =  "SELECT Author FROM QuteQuotesList";
+    @Override
+    public List<Quote> all() {
+        String sqlQuery =  "SELECT quote, author FROM QuteQuotesList";
+        List quoteList = new ArrayList<Quote>();
+
+        try{
+            final Statement stmt = connectionObj.createStatement();
+            ResultSet quotes = stmt.executeQuery(sqlQuery);
+
+            while(quotes.next()){
+                Quote newQuote = new Quote(quotes.getString("quote"), quotes.getString("author"));
+                quoteList.add(newQuote);
+            }
+        } catch( SQLException e ){
+            System.err.println( e.getMessage() );
+        }
+
+        return quoteList;
+    }
+
+    @Override
+    public boolean add(Quote quote) {
+        String sqlQuery =  "INSERT INTO QuteQuotesList (quote, author) VALUES (\'" + quote.getText() + "\', \'" + quote.getName() + "\')";
+        System.out.println("Query: " + sqlQuery);
         try( final Statement stmt = connectionObj.createStatement() ){
             stmt.execute(sqlQuery);
         }catch( SQLException e ){
             System.err.println( e.getMessage() );
         }
+
+        return false;
     }
 
 }

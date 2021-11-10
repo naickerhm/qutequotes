@@ -22,5 +22,5 @@ public interface QuoteDB {
      * @param quote the quote to add
      * @return the newly added Quote
      */
-    Quote add(Quote quote);
+    boolean add(Quote quote);
 }

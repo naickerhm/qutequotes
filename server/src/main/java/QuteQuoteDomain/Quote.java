@@ -1,16 +1,16 @@
 package QuteQuoteDomain;
 
 public class Quote {
-    private Integer id;
     private String text;
     private String name;
 
-    public Integer getId() {
-        return id;
+    public Quote(){
+        
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Quote(String quote, String author) {
+        this.text = quote;
+        this.name = author;
     }
 
     public String getText() {

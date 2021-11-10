@@ -27,10 +27,9 @@ public class TestDatabase implements QuoteDB {
     }
 
     @Override
-    public Quote add(Quote quote) {
+    public boolean add(Quote quote) {
         Integer index = quotes.size() + 1;
-        quote.setId(index);
         quotes.put(index, quote);
-        return quote;
+        return true;
     }
 }
