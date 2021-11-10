@@ -1,0 +1,56 @@
+import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'QuteQuotes',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        body: Quote(),
+      ),
+    );
+  }
+}
+
+class Quote extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: _getQuote(),
+        builder: (context, snapshot) {
+          return snapshot.connectionState == ConnectionState.done
+              ? Center(
+                  child: Text(
+                  snapshot.data as String,
+                  textAlign: TextAlign.center,
+                ))
+              : Center(child: CircularProgressIndicator());
+        });
+  }
+}
+
+Future<Map<String, String>> _getQuote() async {
+  Map<String, String> map1 = {
+    'There is no snooze button on a cat who wants breakfast.': "Unknown",
+    'Never try to outstubborn a cat.': "Robert A. Heinlein",
+    'To err is human, to purr is feline.': "Robert Byrne"
+  };
+
+  // final res = await http.get(Uri.parse('http://quotes.rest/qod.json'));
+  return map1;
+  // final res = await http.get(Uri.parse('http://quotes.rest/qod.json'));
+  // return json.decode(res.body)['contents']['quotes'][0]['quote'];
+}
