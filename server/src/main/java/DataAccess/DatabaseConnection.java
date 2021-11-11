@@ -41,7 +41,7 @@ public class DatabaseConnection implements QuoteDB{
 
 
     public void createTable() throws SQLException {
-        String sqlQuery =  "CREATE TABLE IF NOT EXISTS QuteQuotesList (quote TEXT, author TEXT)";
+        String sqlQuery =  "CREATE TABLE IF NOT EXISTS QuteQuotesList (id INTEGER PRIMARY KEY AUTOINCREMENT, quote TEXT, author TEXT)";
         try( final Statement stmt = connectionObj.createStatement() ){
             stmt.execute(sqlQuery);
         }catch( SQLException e ){
@@ -58,15 +58,15 @@ public class DatabaseConnection implements QuoteDB{
 
     @Override
     public List<Quote> all() {
-        String sqlQuery =  "SELECT quote, author FROM QuteQuotesList";
-        List quoteList = new ArrayList<Quote>();
+        String sqlQuery =  "SELECT * FROM QuteQuotesList";
+        List<Quote> quoteList = new ArrayList<Quote>();
 
         try{
             final Statement stmt = connectionObj.createStatement();
             ResultSet quotes = stmt.executeQuery(sqlQuery);
 
             while(quotes.next()){
-                Quote newQuote = new Quote(quotes.getString("quote"), quotes.getString("author"));
+                Quote newQuote = new Quote(quotes.getString("quote"), quotes.getString("author"), quotes.getInt("id"));
                 quoteList.add(newQuote);
             }
         } catch( SQLException e ){

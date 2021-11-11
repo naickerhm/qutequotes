@@ -3,14 +3,16 @@ package QuteQuoteDomain;
 public class Quote {
     private String text;
     private String name;
+    private int id;
 
     public Quote(){
         
     }
 
-    public Quote(String quote, String author) {
+    public Quote(String quote, String author, int id) {
         this.text = quote;
         this.name = author;
+        this.id = id;
     }
 
     public String getText() {
@@ -27,6 +29,14 @@ public class Quote {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
