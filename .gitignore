@@ -1,0 +1,6 @@
+server/target*
+
+# User-specific stuff
+server/.idea/*
+server/.settings*
+server/libs*

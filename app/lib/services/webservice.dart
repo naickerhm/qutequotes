@@ -13,8 +13,10 @@ class Webservice {
       "Access-Control-Allow-Origin": "*",
     });
     if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
+      Iterable json = jsonDecode(response.body);
       return json.map((quote) => Quote.fromJson(quote)).toList();
+
+      // return List<Quote>.from(json.map((quote) => Quote.fromJson(quote)));
     } else {
       throw Exception("Error downloading quotes..");
     }
