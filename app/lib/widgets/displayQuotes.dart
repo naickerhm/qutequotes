@@ -1,12 +1,11 @@
 import 'package:app/model/QuteQuotesModel.dart';
 import 'package:flutter/material.dart';
 
-class QuoteCard extends StatelessWidget {
+class QuoteDisplay extends StatelessWidget {
   final Quote quote;
   final VoidCallback onTap;
-  // final bool selected;
 
-  const QuoteCard({Key? key, required this.quote, required this.onTap})
+  const QuoteDisplay({Key? key, required this.quote, required this.onTap})
       : super(key: key);
 
   @override
@@ -17,24 +16,24 @@ class QuoteCard extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(5.0),
         ),
-        color: Colors.blue,
+        color: Colors.yellow,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: <Widget>[
               Text(
                 quote.text,
                 style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
               Text(
                 quote.name,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),

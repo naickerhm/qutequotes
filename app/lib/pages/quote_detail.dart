@@ -20,7 +20,7 @@ class Detail extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Go back!'),
+              child: Text('Return to main page'),
             ),
           ),
         ],

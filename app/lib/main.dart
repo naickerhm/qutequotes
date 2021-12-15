@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:app/controller/QuteQuotesController.dart';
 import 'package:app/model/QuteQuotesModel.dart';
 import 'package:app/pages/quote_detail.dart';
 import 'package:app/services/webservice.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         // Add the 5 lines from here...
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
-          foregroundColor: Colors.pink,
+          foregroundColor: Colors.white,
         ),
       ),
       home: QuoteList(),
@@ -42,17 +41,7 @@ class QuoteList extends StatefulWidget {
 }
 
 class _QuoteList extends State<QuoteList> {
-  // Map<String, String> _suggestions = {
-  //   'There is no snooze button on a cat who wants breakfast.': "Unknown",
-  //   'Never try to outstubborn a cat.': "Robert A. Heinlein",
-  //   'To err is human, to purr is feline.': "Robert Byrne"
-  // };
-
   final webservice = Webservice();
-
-  // late Future<List<Quote>> testList = webservice.getQuotes();
-
-  // final QuteQoutesController myController = QuteQoutesController();
 
   Widget _buildSuggestions() {
     return FutureBuilder(
@@ -64,7 +53,7 @@ class _QuoteList extends State<QuoteList> {
             padding: const EdgeInsets.all(16.0),
             itemBuilder: (context, i) {
               return Center(
-                child: QuoteCard(
+                child: QuoteDisplay(
                   quote: snapshot.data[i],
                   onTap: () {
                     Navigator.push(
@@ -84,7 +73,7 @@ class _QuoteList extends State<QuoteList> {
   Widget addQuoteButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () => addQuote(context),
-      child: Text("Add Quote"),
+      child: Text("Add Quote Here!"),
     );
     // onPressed: doThing(), child: Text("no"));
   }
@@ -94,13 +83,13 @@ class _QuoteList extends State<QuoteList> {
     final text = TextEditingController();
     Alert(
         context: context,
-        title: "Add New Quote",
+        title: "Enter fields",
         content: Column(
           children: <Widget>[
             TextField(
               controller: name,
               decoration: const InputDecoration(
-                icon: Icon(Icons.verified_user),
+                icon: Icon(Icons.add_comment),
                 labelText: 'Author',
               ),
             ),
@@ -114,7 +103,7 @@ class _QuoteList extends State<QuoteList> {
                 color: Colors.black,
               ),
               decoration: const InputDecoration(
-                icon: Icon(Icons.wrap_text),
+                icon: Icon(Icons.text_fields),
                 labelText: 'Quote',
               ),
             ),
@@ -146,7 +135,7 @@ class _QuoteList extends State<QuoteList> {
             ),
             child: const Text(
               "Add New Quote",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color: Colors.black, fontSize: 20),
             ),
           )
         ]).show();
